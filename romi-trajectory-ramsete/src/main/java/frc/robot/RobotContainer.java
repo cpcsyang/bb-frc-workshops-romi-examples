@@ -71,24 +71,24 @@ public class RobotContainer {
 
   /**
    * Generate a trajectory following Ramsete command
-   * 
+   *
    * This is very similar to the WPILib RamseteCommand example. It uses
-   * constants defined in the Constants.java file. These constants were 
+   * constants defined in the Constants.java file. These constants were
    * found empirically by using the frc-characterization tool.
-   * 
+   *
    * @return A SequentialCommand that sets up and executes a trajectory following Ramsete command
    */
   private Command generateRamseteCommand() {
     var autoVoltageConstraint =
         new DifferentialDriveVoltageConstraint(
-            new SimpleMotorFeedforward(DriveConstants.ksVolts, 
-                                       DriveConstants.kvVoltSecondsPerMeter, 
+            new SimpleMotorFeedforward(DriveConstants.ksVolts,
+                                       DriveConstants.kvVoltSecondsPerMeter,
                                        DriveConstants.kaVoltSecondsSquaredPerMeter),
             DriveConstants.kDriveKinematics,
             10);
 
     TrajectoryConfig config =
-        new TrajectoryConfig(AutoConstants.kMaxSpeedMetersPerSecond, 
+        new TrajectoryConfig(AutoConstants.kMaxSpeedMetersPerSecond,
                              AutoConstants.kMaxAccelerationMetersPerSecondSquared)
             .setKinematics(DriveConstants.kDriveKinematics)
             .addConstraint(autoVoltageConstraint);
@@ -130,7 +130,7 @@ public class RobotContainer {
 
         // Finally, we make sure that the robot stops
         .andThen(new InstantCommand(() -> m_drivetrain.tankDriveVolts(0, 0), m_drivetrain));
-  } 
+  }
 
   /**
    * Use this method to define your button->command mappings. Buttons can be created by
@@ -153,7 +153,7 @@ public class RobotContainer {
     m_chooser.setDefaultOption("Ramsete Trajectory", generateRamseteCommand());
     m_chooser.addOption("Auto Routine Distance", new AutonomousDistance(m_drivetrain));
     m_chooser.addOption("Auto Routine Time", new AutonomousTime(m_drivetrain));
-    
+
     SmartDashboard.putData(m_chooser);
   }
 
@@ -164,7 +164,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     return m_chooser.getSelected();
-    
+
 
   }
 
@@ -175,6 +175,7 @@ public class RobotContainer {
    */
   public Command getArcadeDriveCommand() {
     return new ArcadeDrive(
+      // id=1 L-Y-Axis, id=4 R-X-Axis
         m_drivetrain, () -> -m_controller.getRawAxis(1), () -> m_controller.getRawAxis(2));
   }
 }
