@@ -1,0 +1,95 @@
+package frc3663.robot.input;
+
+import edu.wpi.first.wpilibj2.command.button.Button;
+
+/**
+ * <p>An interface for easily implementing gamepads as an input source.</p>
+ *
+ * @author Frank Yang
+ */
+public abstract class Controller {
+	public abstract Axis getLeftTriggerAxis();
+	public abstract Axis getLeftXAxis();
+	public abstract Axis getLeftYAxis();
+	public abstract Axis getRightTriggerAxis();
+	public abstract Axis getRightXAxis();
+	public abstract Axis getRightYAxis();
+
+	/**
+	 * Get the A button of the controller.
+	 *
+	 * @return The A button
+	 */
+	public abstract Button getAButton();
+
+	/**
+	 * Get the B button of the controller.
+	 *
+	 * @return The B button
+	 */
+	public abstract Button getBButton();
+
+	/**
+	 * Get the X button of the controller.
+	 *
+	 * @return The X button
+	 */
+	public abstract Button getXButton();
+
+	/**
+	 * Get the Y button of the controller.
+	 *
+	 * @return The Y button
+	 */
+	public abstract Button getYButton();
+
+	/**
+	 * Get the left bumper button of the controller.
+	 *
+	 * @return The left bumper button
+	 */
+	public abstract Button getLeftBumperButton();
+
+	/**
+	 * Get the right bumper button of the controller.
+	 *
+	 * @return The right bumper button
+	 */
+	public abstract Button getRightBumperButton();
+
+	/**
+	 * Get the back button of the controller.
+	 *
+	 * @return The back button
+	 */
+	public abstract Button getBackButton();
+
+	/**
+	 * Get the start button of the controller.
+	 *
+	 * @return The start button
+	 */
+	public abstract Button getStartButton();
+
+	/**
+	 * Get the left joystick button of the controller.
+	 *
+	 * @return The left joystick button
+	 */
+	public abstract Button getLeftJoystickButton();
+
+	/**
+	 * Get the right joystick button of the controller.
+	 *
+	 * @return The right joystick button
+	 */
+	public abstract Button getRightJoystickButton();
+
+	/**
+	 * Get a D-Pad button of the controller.
+	 *
+	 * @param direction The direction of the D-Pad button
+	 * @return The D-Pad button of the specified direction
+	 */
+	public abstract Button getDPadButton(DPadButton.Direction direction);
+}

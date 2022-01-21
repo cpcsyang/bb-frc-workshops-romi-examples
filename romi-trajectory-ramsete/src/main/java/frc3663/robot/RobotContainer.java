@@ -2,27 +2,19 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot;
+package frc3663.robot;
 
 import java.util.List;
 
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.XboxController;
+// import edu.wpi.first.wpilibj.Joystick;
+// import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.controller.RamseteController;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
-import frc.robot.Constants.AutoConstants;
-import frc.robot.Constants.DriveConstants;
-import frc.robot.commands.ArcadeDrive;
-import frc.robot.commands.AutonomousDistance;
-import frc.robot.commands.AutonomousTime;
-import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.OnBoardIO;
-import frc.robot.subsystems.OnBoardIO.ChannelMode;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
@@ -34,6 +26,15 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
+import frc3663.robot.Constants.AutoConstants;
+import frc3663.robot.Constants.DriveConstants;
+import frc3663.robot.commands.ArcadeDrive;
+import frc3663.robot.commands.AutonomousDistance;
+import frc3663.robot.commands.AutonomousTime;
+import frc3663.robot.input.XboxController;
+import frc3663.robot.subsystems.Drivetrain;
+import frc3663.robot.subsystems.OnBoardIO;
+import frc3663.robot.subsystems.OnBoardIO.ChannelMode;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -47,7 +48,8 @@ public class RobotContainer {
   private final OnBoardIO m_onboardIO = new OnBoardIO(ChannelMode.INPUT, ChannelMode.INPUT);
 
   // Assumes a gamepad plugged into channnel 0
-  private final Joystick m_controller = new Joystick(0);
+  // private final Joystick m_controller = new Joystick(0); // from original example code
+  private final XboxController m_XboxController = new XboxController(0); // proposed new code
 
   // Create SmartDashboard chooser for autonomous routines
   private final SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -149,6 +151,11 @@ public class RobotContainer {
         .whenActive(new PrintCommand("Button A Pressed"))
         .whenInactive(new PrintCommand("Button A Released"));
 
+    Button controllerButtonA = m_XboxController.getAButton();
+    controllerButtonA
+        .whenActive(new PrintCommand("Controller Button A Pressed"))
+        .whenInactive(new PrintCommand("Controller Button A Released"));
+
     // Setup SmartDashboard options
     m_chooser.setDefaultOption("Ramsete Trajectory", generateRamseteCommand());
     m_chooser.addOption("Auto Routine Distance", new AutonomousDistance(m_drivetrain));
@@ -176,6 +183,7 @@ public class RobotContainer {
   public Command getArcadeDriveCommand() {
     return new ArcadeDrive(
       // id=1 L-Y-Axis, id=4 R-X-Axis
-        m_drivetrain, () -> -m_controller.getRawAxis(1), () -> m_controller.getRawAxis(4));
+      // m_drivetrain, () -> -m_controller.getRawAxis(1), () -> m_controller.getRawAxis(4));  // from original example code
+      m_drivetrain, () -> m_XboxController.getLeftYAxis().get(), () -> m_XboxController.getRightXAxis().get()); // proposed new code
   }
 }
